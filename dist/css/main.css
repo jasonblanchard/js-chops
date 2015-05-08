@@ -95,18 +95,24 @@ textarea {
    Author's custom styles
    ========================================================================== */
 
+a,
+.collection a.collection-item {
+  color: #8e24aa;
+}
 
 
+.promo i {
+  font-size: 5em;
+  color: #4a148c;
+}
 
+.collection .collection-item .title {
+  font-size: 1.1em;
+}
 
-
-
-
-
-
-
-
-
+nav {
+  background-color: #4a148c;
+}
 
 
 

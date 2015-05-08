@@ -2,6 +2,7 @@ var fs = require('fs');
 var path = require('path');
 
 var gulp = require('gulp');
+var watch = require('gulp-watch');
 
 // Load all gulp plugins automatically
 // and attach them to the `plugins` object
@@ -66,7 +67,7 @@ gulp.task('clean', function (done) {
 
 gulp.task('copy', [
     'copy:.htaccess',
-    'copy:index.html',
+    'copy:html',
     'copy:jquery',
     'copy:license',
     'copy:main.css',
@@ -80,8 +81,8 @@ gulp.task('copy:.htaccess', function () {
                .pipe(gulp.dest(dirs.dist));
 });
 
-gulp.task('copy:index.html', function () {
-    return gulp.src(dirs.src + '/index.html')
+gulp.task('copy:html', function () {
+    return gulp.src(dirs.src + '/**/*.html')
                .pipe(plugins.replace(/{{JQUERY_VERSION}}/g, pkg.devDependencies.jquery))
                .pipe(gulp.dest(dirs.dist));
 });
@@ -121,7 +122,7 @@ gulp.task('copy:misc', function () {
         // Exclude the following files
         // (other tasks will handle the copying of these files)
         '!' + dirs.src + '/css/main.css',
-        '!' + dirs.src + '/index.html'
+        '!' + dirs.src + '/**/*.html'
 
     ], {
 
@@ -162,9 +163,15 @@ gulp.task('archive', function (done) {
 
 gulp.task('build', function (done) {
     runSequence(
-        ['clean', 'lint:js'],
+        ['clean'],
         'copy',
     done);
+});
+
+gulp.task('watch', function() {
+    watch('src/**', function() {
+        gulp.start('build');
+    });
 });
 
 gulp.task('default', ['build']);
